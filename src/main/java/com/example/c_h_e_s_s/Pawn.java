@@ -30,7 +30,6 @@ public class Pawn extends Pieces{
                 if (desiredCol == col + 2 && desiredRow == row && board[col+1][row] == null){
                     board[col][row] = null; // set old position to be empty
                     col = desiredCol;
-                    row = desiredRow;
                     board[col][row] = this;
                     hasMoved = true;
                     return board;
@@ -40,7 +39,6 @@ public class Pawn extends Pieces{
                 if (board[col + 1][row] == null){ // make sure there's nothing there
                     board[col][row] = null;
                     col = desiredCol;
-                    row = desiredRow;
                     board[col][row] = this;
                     hasMoved = true;
                     return board;
@@ -64,7 +62,6 @@ public class Pawn extends Pieces{
                 if (desiredCol == col - 2 && desiredRow == row && board[col-1][row] == null){
                     board[col][row] = null; // set old position to be empty
                     col = desiredCol;
-                    row = desiredRow;
                     board[col][row] = this;
                     hasMoved = true;
                     return board;
@@ -74,7 +71,6 @@ public class Pawn extends Pieces{
                 if (board[col - 1][row] == null){
                     board[col][row] = null;
                     col = desiredCol;
-                    row = desiredRow;
                     board[col][row] = this;
                     hasMoved = true;
                     return board;

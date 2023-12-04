@@ -37,7 +37,7 @@ public abstract class Pieces {
 
         if (color == 0){ // white
            if (type == 0){ // pawn
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white pawn.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white pawn.png");
                Image pawn = new Image(stream);
                imageView.setImage(pawn);
                imageView.setX(100 * row);
@@ -47,7 +47,7 @@ public abstract class Pieces {
                return chessImages;
            }
            else if (type == 1){ // knight
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white knight.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white knight.png");
                Image knight = new Image(stream);
                imageView.setImage(knight);
                imageView.setX(100 * row);
@@ -58,7 +58,7 @@ public abstract class Pieces {
 
            }
            else if (type == 2){ // bishop
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white bishop.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white bishop.png");
                Image bishop = new Image(stream);
                imageView.setImage(bishop);
                imageView.setX(100 * row);
@@ -69,7 +69,7 @@ public abstract class Pieces {
 
            }
            else if (type == 3){ // rook
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white rook.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white rook.png");
                Image rook = new Image(stream);
                imageView.setImage(rook);
                imageView.setX(100 * row);
@@ -80,7 +80,7 @@ public abstract class Pieces {
 
            }
            else if (type == 4){ // queen
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white queen.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white queen.png");
                Image queen = new Image(stream);
                imageView.setImage(queen);
                imageView.setX(100 * row);
@@ -91,7 +91,7 @@ public abstract class Pieces {
 
            }
            else if (type == 5){ // king
-               InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\white king.png");
+               InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/white king.png");
                Image king = new Image(stream);
                imageView.setImage(king);
                imageView.setX(100 * row);
@@ -105,7 +105,7 @@ public abstract class Pieces {
 
         else{ // black
             if (type == 0){ // pawn
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black pawn.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black pawn.png");
                 Image pawn = new Image(stream);
                 imageView.setImage(pawn);
                 imageView.setX(100 * row);
@@ -115,7 +115,7 @@ public abstract class Pieces {
                 return chessImages;
             }
             else if (type == 1){ // knight
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black knight.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black knight.png");
                 Image knight = new Image(stream);
                 imageView.setImage(knight);
                 imageView.setX(100 * row);
@@ -126,7 +126,7 @@ public abstract class Pieces {
 
             }
             else if (type == 2){ // bishop
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black bishop.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black bishop.png");
                 Image bishop = new Image(stream);
                 imageView.setImage(bishop);
                 imageView.setX(100 * row);
@@ -137,7 +137,7 @@ public abstract class Pieces {
 
             }
             else if (type == 3){ // rook
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black rook.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black rook.png");
                 Image rook = new Image(stream);
                 imageView.setImage(rook);
                 imageView.setX(100 * row);
@@ -148,7 +148,7 @@ public abstract class Pieces {
 
             }
             else if (type == 4){ // queen
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black queen.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black queen.png");
                 Image queen = new Image(stream);
                 imageView.setImage(queen);
                 imageView.setX(100 * row);
@@ -159,7 +159,7 @@ public abstract class Pieces {
 
             }
             else if (type == 5){ // king
-                InputStream stream = new FileInputStream("C:\\Users\\aiden\\Documents\\chess\\src\\Chess Pieces\\black king.png");
+                InputStream stream = new FileInputStream("src/main/resources/com/example/c_h_e_s_s/black king.png");
                 Image king = new Image(stream);
                 imageView.setImage(king);
                 imageView.setX(100 * row);

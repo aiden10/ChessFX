@@ -31,7 +31,6 @@ public class Queen extends Pieces{
                 }
                 // at this point it has "made it" to the desired position
                 board[col][row] = null;
-                col = desiredCol;
                 row = desiredRow;
                 board[col][row] = this;
                 return board;
@@ -61,11 +60,10 @@ public class Queen extends Pieces{
                 // at this point it has "made it" to the desired position
                 board[col][row] = null;
                 col = desiredCol;
-                row = desiredRow;
                 board[col][row] = this;
                 return board;
             }
-            else if (desiredCol < col){ // moving up
+            else { // moving up
                 for (int up = col - 1; up > desiredCol; up--){ // move up one space at a time
                     if (board[up][row] != null){ // invalid move, because something was in the way
                         return board;
@@ -74,7 +72,6 @@ public class Queen extends Pieces{
                 // at this point it has "made it" to the desired position
                 board[col][row] = null;
                 col = desiredCol;
-                row = desiredRow;
                 board[col][row] = this;
                 return board;
             }
@@ -101,7 +98,7 @@ public class Queen extends Pieces{
 
 
             // up right
-            if (desiredCol < col && desiredRow >  row){
+            if (desiredCol < col){
                 for (int i = 1; i < Math.abs(desiredCol - col); i++){ // Math.abs(desiredCol - col) could be row as well, but they're already equal if this is reached
                     System.out.println("board[" + (col - i) + "]" + "[" + (row + i)  + "]");
                     // col down
@@ -137,7 +134,7 @@ public class Queen extends Pieces{
             }
 
             // down right
-            if (desiredCol > col && desiredRow > row){
+            if (desiredCol > col){
                 for (int i = 1; i < Math.abs(desiredCol - col); i++){ // Math.abs(desiredCol - col) could be row as well, but they're already equal if this is reached
                     // col up
                     // row down

@@ -1,8 +1,10 @@
 package com.example.c_h_e_s_s;
 
 public class King extends Pieces{
-    public King(int type, int color, int col, int row) {
+    boolean inCheck;
+    public King(int type, int color, int col, int row, boolean inCheck) {
         super(5, color, col, row);
+        this.inCheck = inCheck;
     }
     @Override
     public int getColor() {
@@ -20,18 +22,21 @@ public class King extends Pieces{
 
     @Override
     public Pieces[][] move(Pieces[][] board, int desiredCol, int desiredRow) {
-        /*
-        if valid{
+
+        if (inCheck){
+            return board;
+        }
+
+        if (Math.abs(col - desiredCol) > 1 || Math.abs(row - desiredRow) > 1){ // trying to move to a spot which is too far
+            return board;
+        }
+
+        else{
+            board[col][row] = null;
             col = desiredCol;
             row = desiredRow;
-            Will take in the board
-            Then: board[col][row] = null
-            board[desiredCol][desiredRow] = this.Pawn
-
-            In game:
-                board = pawn.move(board, 2, 2);
+            board[col][row] = this;
         }
-        * */
         return board;
     }
 }

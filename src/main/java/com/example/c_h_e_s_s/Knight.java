@@ -20,18 +20,69 @@ public class Knight extends Pieces{
 
     @Override
     public Pieces[][] move(Pieces[][] board, int desiredCol, int desiredRow) {
-        /*
-        if valid{
+        if (desiredRow == row + 2 && desiredCol == col + 1){
+            board[col][row] = null;
             col = desiredCol;
             row = desiredRow;
-            Will take in the board
-            Then: board[col][row] = null
-            board[desiredCol][desiredRow] = this.Pawn
-
-            In game:
-                board = pawn.move(board, 2, 2);
+            board[col][row] = this;
+            return board;
         }
-        * */
+
+        if (desiredRow == row + 1 && desiredCol == col - 2){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
+        if (desiredRow == row - 1 && desiredCol == col + 2){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
+        if (desiredRow == row - 2 && desiredCol == col + 1){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
+        if (desiredRow == row + 2 && desiredCol == col - 1){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
+        if (desiredRow == row - 2 && desiredCol == col - 1){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+        if (desiredRow == row + 1 && desiredCol == col + 2){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
+        if (desiredRow == row - 1 && desiredCol == col - 2){
+            board[col][row] = null;
+            col = desiredCol;
+            row = desiredRow;
+            board[col][row] = this;
+            return board;
+        }
+
         return board;
     }
 }

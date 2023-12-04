@@ -1,14 +1,14 @@
 /*
 - Draw pieces x
-- Get pieces to move properly
+- Get pieces to move properly x
     - Figure out how to get mouse input and get desired column and desired row from that x
     - Determine if a move is valid x
     - Pawn x
-    - Knight
+    - Knight x
     - Bishop x
     - Rook x
-    - Queen
-    - King
+    - Queen x
+    - King x (partially)
 - Alternate turns x
 - Take pieces x
 - Pawn promotion
@@ -16,6 +16,10 @@
 - Castling
 - Display valid moves
 - En passant
+- Stalemate detection
+
+Should have a function which resets the board so that I can implement a restart function for when the game is over
+How to determine if king's move would place it in check or not
 */
 
 package com.example.c_h_e_s_s;
@@ -47,7 +51,7 @@ public class Game extends Application {
     Rook blackRook1 = new Rook(3, 1, 0, 0);
     Rook blackRook2 = new Rook(3, 1, 0, 7);
     Queen blackQueen = new Queen(4, 1, 0, 3);
-    King blackKing = new King(5, 1, 0, 4);
+    King blackKing = new King(5, 1, 0, 4, false);
 
     // white pieces
     Pawn whitePawn1 = new Pawn(0, 0, 6, 0, false);
@@ -65,7 +69,7 @@ public class Game extends Application {
     Rook whiteRook1 = new Rook(3, 0, 7, 0);
     Rook whiteRook2 = new Rook(3, 0, 7, 7);
     Queen whiteQueen = new Queen(4, 0, 7, 3);
-    King whiteKing = new King(5, 0, 7, 4);
+    King whiteKing = new King(5, 0, 7, 4, false);
     Pieces selectedPiece;
 
     Color chessGreen = Color.rgb(118, 150, 86);
@@ -87,45 +91,7 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) {
-
-        // populating the board
-
-        // black pieces
-        board[0][0] = blackRook1;
-        board[0][1] = blackKnight1;
-        board[0][2] = blackBishop1;
-        board[0][3] = blackQueen;
-        board[0][4] = blackKing;
-        board[0][5] = blackBishop2;
-        board[0][6] = blackKnight2;
-        board[0][7] = blackRook2;
-
-        board[1][0] = blackPawn1;
-        board[1][1] = blackPawn2;
-        board[1][2] = blackPawn3;
-        board[1][3] = blackPawn4;
-        board[1][4] = blackPawn5;
-        board[1][5] = blackPawn6;
-        board[1][6] = blackPawn7;
-        board[1][7] = blackPawn8;
-
-        board[7][0] = whiteRook1;
-        board[7][1] = whiteKnight1;
-        board[7][2] = whiteBishop1;
-        board[7][3] = whiteQueen;
-        board[7][4] = whiteKing;
-        board[7][5] = whiteBishop2;
-        board[7][6] = whiteKnight2;
-        board[7][7] = whiteRook2;
-
-        board[6][0] = whitePawn1;
-        board[6][1] = whitePawn2;
-        board[6][2] = whitePawn3;
-        board[6][3] = whitePawn4;
-        board[6][4] = whitePawn5;
-        board[6][5] = whitePawn6;
-        board[6][6] = whitePawn7;
-        board[6][7] = whitePawn8;
+        initialize();
 
         Scene scene = new Scene(pane, LENGTH, HEIGHT);
         stage.setTitle("Chess");
@@ -342,6 +308,69 @@ public class Game extends Application {
     }
     // board is 8x8
     // each square is 100x100
+
+    private void initialize(){
+        // populating the board
+
+        // black pieces
+        board[0][0] = blackRook1;
+        board[0][1] = blackKnight1;
+        board[0][2] = blackBishop1;
+        board[0][3] = blackQueen;
+        board[0][4] = blackKing;
+        board[0][5] = blackBishop2;
+        board[0][6] = blackKnight2;
+        board[0][7] = blackRook2;
+
+        board[1][0] = blackPawn1;
+        board[1][1] = blackPawn2;
+        board[1][2] = blackPawn3;
+        board[1][3] = blackPawn4;
+        board[1][4] = blackPawn5;
+        board[1][5] = blackPawn6;
+        board[1][6] = blackPawn7;
+        board[1][7] = blackPawn8;
+
+        blackKing.inCheck = false;
+        blackPawn1.hasMoved = false;
+        blackPawn2.hasMoved = false;
+        blackPawn3.hasMoved = false;
+        blackPawn4.hasMoved = false;
+        blackPawn5.hasMoved = false;
+        blackPawn6.hasMoved = false;
+        blackPawn7.hasMoved = false;
+        blackPawn8.hasMoved = false;
+
+        board[7][0] = whiteRook1;
+        board[7][1] = whiteKnight1;
+        board[7][2] = whiteBishop1;
+        board[7][3] = whiteQueen;
+        board[7][4] = whiteKing;
+        board[7][5] = whiteBishop2;
+        board[7][6] = whiteKnight2;
+        board[7][7] = whiteRook2;
+
+        board[6][0] = whitePawn1;
+        board[6][1] = whitePawn2;
+        board[6][2] = whitePawn3;
+        board[6][3] = whitePawn4;
+        board[6][4] = whitePawn5;
+        board[6][5] = whitePawn6;
+        board[6][6] = whitePawn7;
+        board[6][7] = whitePawn8;
+
+        whiteKing.inCheck = false;
+        whitePawn1.hasMoved = false;
+        whitePawn2.hasMoved = false;
+        whitePawn3.hasMoved = false;
+        whitePawn4.hasMoved = false;
+        whitePawn5.hasMoved = false;
+        whitePawn6.hasMoved = false;
+        whitePawn7.hasMoved = false;
+        whitePawn8.hasMoved = false;
+
+    }
+
     private Pane drawGrid(){
         int tileColor = 0; // used for alternating squares
         Pane pane = new Pane();
