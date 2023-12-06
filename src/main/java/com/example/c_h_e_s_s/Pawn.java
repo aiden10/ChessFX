@@ -13,15 +13,15 @@ public class Pawn extends Pieces{
     }
 
     @Override
-    public int getCol() {
-        return super.getCol();
-    }
+    public int getCol() {return super.getCol();}
 
     @Override
-    public int getRow() {
-        return super.getRow();
+    public int getRow() {return super.getRow();}
+    public int getType(){return super.getType();}
+    @Override
+    public Pieces copy() {
+        return new Pawn(this.getType(), this.getColor(), this.getCol(), this.getRow(), this.hasMoved);
     }
-
     @Override
     public Pieces[][] move(Pieces[][] board, int desiredCol, int desiredRow) {
     // don't need to worry about going out of bounds because you can only select valid squares
@@ -91,32 +91,36 @@ public class Pawn extends Pieces{
         }
         return board;
     }
-    public int[][] validMoves(Pieces[][] board){
-        int[][] moves = new int[8][8];
-        if (color == 1){ // black
-            if (!hasMoved){ // has not moved so 2 down is valid
-                moves[col + 2][row] = 1; // populate with anything so long as it isn't null
-            }
-            if (col < 7){
-                moves[col+1][row] = 1; // pawns can always move forward as long as it is not at the end
+    @Override
+    public Integer[][] getValidMoves(Pieces[][] board) {
+        // maybe compare piece types instead of deepEquals?
+        Integer[][] moves = new Integer[8][8];
 
-                if (board[col + 1][row + 1] != null && board[col + 1][row - 1] != null){ // if there is a piece which can be taken it is a valid move
-                    moves[col + 1][row + 1] = 1;
-                    moves[col + 1][row -1] = 1;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                int currentRow = row;
+                int currentCol = col;
+                boolean currentState = hasMoved;
+                if (board[i][j] != null){
+                    if (color == 1) {
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 1)) {
+                            moves[i][j] = 1;
+                        }
+                    }
+                    else{
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 0)) {
+                            moves[i][j] = 1;
+                        }
+                    }
                 }
-            }
-        }
-        else{ // white
-            if (!hasMoved){ // has not moved so 2 down is valid
-                moves[col - 2][row] = 1; // populate with anything so long as it isn't null
-            }
-            if (col > 0){
-                moves[col-1][row] = 1; // pawns can always move forward as long as it is not at the end
-
-                if (board[col - 1][row + 1] != null && board[col - 1][row - 1] != null){ // if there is a piece which can be taken it is a valid move
-                    moves[col - 1][row + 1] = 1;
-                    moves[col - 1][row -1] = 1;
+                else{
+                    if (!checkEquality(move(deepCopy(board), i, j), board)) {
+                        moves[i][j] = 1;
+                    }
                 }
+                row = currentRow;
+                col = currentCol;
+                hasMoved = currentState;
             }
         }
         return moves;

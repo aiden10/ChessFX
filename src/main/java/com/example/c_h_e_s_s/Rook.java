@@ -18,6 +18,9 @@ public class Rook extends Pieces{
     public int getRow() {
         return super.getRow();
     }
+    public Pieces copy() {
+        return new Rook(this.getType(), this.getColor(), this.getCol(), this.getRow());
+    }
 
     @Override
     public Pieces[][] move(Pieces[][] board, int desiredCol, int desiredRow) {
@@ -78,102 +81,38 @@ public class Rook extends Pieces{
         }
         return board;
     }
-    public int[][] validMoves(Pieces[][] board){
-        int[][] moves = new int[8][8];
+    public Integer[][] getValidMoves(Pieces[][] board) {
+        // maybe compare piece types instead of deepEquals?
+        Integer[][] moves = new Integer[8][8];
 
-        // right
-        for (int right = row; right < 7; right++){ // moving right from current column to the edge
-            if (board[col][right] == null){ // if nothing is there it is a valid move
-                moves[col][right] = 1;
-            }
-            else{ // something is there
-                if (board[col][right].getColor() == 0 && color == 1){ // enemy piece
-                    moves[col][right] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                int currentRow = row;
+                int currentCol = col;
+                if (board[i][j] != null){
+                    if (color == 1) {
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 1)) {
+                            moves[i][j] = 1;
+                            System.out.println("true");
+                        }
+                    }
+                    else{
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 0)) {
+                            moves[i][j] = 1;
+                            System.out.println("true");
+                        }
+                    }
                 }
-                else if (board[col][right].getColor() == 0 && color == 0){ // friendly piece
-                    break; // can't go any further
+                else{
+                    if (!checkEquality(move(deepCopy(board), i, j), board)) {
+                        System.out.println("true");
+                        moves[i][j] = 1;
+                    }
                 }
-                if (board[col][right].getColor() == 1 && color == 0){
-                    moves[col][right] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][right].getColor() == 1 && color == 1){
-                    break;
-                }
+                row = currentRow;
+                col = currentCol;
             }
         }
-
-        // left
-        for (int left = row; left > 0; left--){
-            if (board[col][left] == null){ // if nothing is there it is a valid move
-                moves[col][left] = 1;
-            }
-            else{ // something is there
-                if (board[col][left].getColor() == 0 && color == 1){ // enemy piece
-                    moves[col][left] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][left].getColor() == 0 && color == 0){ // friendly piece
-                    break; // can't go any further
-                }
-                if (board[col][left].getColor() == 1 && color == 0){
-                    moves[col][left] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][left].getColor() == 1 && color == 1){
-                    break;
-                }
-            }
-        }
-
-        // up
-        for (int up = col; up > 0; up--){
-            if (board[col][up] == null){ // if nothing is there it is a valid move
-                moves[col][up] = 1;
-            }
-            else{ // something is there
-                if (board[col][up].getColor() == 0 && color == 1){ // enemy piece
-                    moves[col][up] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][up].getColor() == 0 && color == 0){ // friendly piece
-                    break; // can't go any further
-                }
-                if (board[col][up].getColor() == 1 && color == 0){
-                    moves[col][up] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][up].getColor() == 1 && color == 1){
-                    break;
-                }
-            }
-        }
-
-
-        // down
-        for (int down = col; down < 7; down++){
-            if (board[col][down] == null){ // if nothing is there it is a valid move
-                moves[col][down] = 1;
-            }
-            else{ // something is there
-                if (board[col][down].getColor() == 0 && color == 1){ // enemy piece
-                    moves[col][down] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][down].getColor() == 0 && color == 0){ // friendly piece
-                    break; // can't go any further
-                }
-                if (board[col][down].getColor() == 1 && color == 0){
-                    moves[col][down] = 1; // there is a piece which can be captured, so it is a valid move
-                    break; // but you can't go any further, so break
-                }
-                else if (board[col][down].getColor() == 1 && color == 1){
-                    break;
-                }
-            }
-        }
-
         return moves;
     }
 }

@@ -31,6 +31,8 @@ public abstract class Pieces {
         return row;
     }
 
+    public int getType() {return type;}
+
     public Group draw() throws FileNotFoundException {
         ImageView imageView = new ImageView();
         Group chessImages = new Group();
@@ -170,5 +172,36 @@ public abstract class Pieces {
             }
         }
         return chessImages;
+    }
+
+    public Integer[][] getValidMoves(Pieces[][] board) {
+        return new Integer[8][8];
+    }
+    public abstract Pieces copy();
+    public Pieces[][] deepCopy(Pieces[][] board){
+        Pieces[][] copy = new Pieces[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] != null) {
+                    copy[i][j] = (board[i][j]).copy();
+                }
+            }
+        }
+        return copy;
+    }
+    public boolean checkEquality(Pieces[][] board1, Pieces[][] board2){
+        for (int i = 0; i < board1.length; i++){
+            for (int j = 0; j < board1[0].length; j++){
+                if (board1[i][j] == null && board2[i][j] != null || board1[i][j] != null && board2[i][j] == null){
+                    return false;
+                }
+                else if (board1[i][j] != null && board2[i][j] != null){
+                    if (board1[i][j].getType() != board2[i][j].getType()){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

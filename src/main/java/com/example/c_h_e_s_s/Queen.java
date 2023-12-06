@@ -5,19 +5,17 @@ public class Queen extends Pieces{
         super(4, color, col, row);
     }
     @Override
-    public int getColor() {
-        return super.getColor();
-    }
+    public int getColor() {return super.getColor();}
     @Override
-    public int getCol() {
-        return super.getCol();
-    }
+    public int getCol() {return super.getCol();}
 
     @Override
-    public int getRow() {
-        return super.getRow();
-    }
+    public int getRow() {return super.getRow();}
+    public int getType(){return super.getType();}
 
+    public Pieces copy() {
+        return new Queen(this.getType(), this.getColor(), this.getCol(), this.getRow());
+    }
     @Override
     public Pieces[][] move(Pieces[][] board, int desiredCol, int desiredRow) {
 
@@ -151,5 +149,36 @@ public class Queen extends Pieces{
             }
         }
         return board;
+    }
+    public Integer[][] getValidMoves(Pieces[][] board) {
+        // maybe compare piece types instead of deepEquals?
+        Integer[][] moves = new Integer[8][8];
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                int currentRow = row;
+                int currentCol = col;
+                if (board[i][j] != null){
+                    if (color == 1) {
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 1)) {
+                            moves[i][j] = 1;
+                        }
+                    }
+                    else{
+                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 0)) {
+                            moves[i][j] = 1;
+                        }
+                    }
+                }
+                else{
+                    if (!checkEquality(move(deepCopy(board), i, j), board)) {
+                        moves[i][j] = 1;
+                    }
+                }
+                row = currentRow;
+                col = currentCol;
+            }
+        }
+        return moves;
     }
 }

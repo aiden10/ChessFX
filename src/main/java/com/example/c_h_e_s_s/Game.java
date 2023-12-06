@@ -27,10 +27,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class Game extends Application {
     Pane pane = drawGrid();
@@ -400,7 +402,9 @@ public class Game extends Application {
         }
         return pane;
     }
-    private void displaySelectedPiece(Pieces selectedPiece){
+    private void displaySelectedPiece(Pieces selectedPiece){ // colors the tile of selected piece
+        int CIRCLE_RADIUS = 15;
+        int CAPTURE_CIRCLE_RADIUS = 45;
         // redraw the board when pieces are moved
         pane.getChildren().clear();
         pane.getChildren().add(drawGrid()); // redraw grid
@@ -412,25 +416,29 @@ public class Game extends Application {
         selectedTile.setFill(selectedColor);
         pane.getChildren().add(selectedTile);
 
-        /*
-        draw mostly translucent grey dots over the spots for valid moves
-        int validMoves[][] = selectedPiece.getValidMoves();
+
+        Integer[][] validMoves = selectedPiece.getValidMoves(board);
+        for (Integer[] validMove : validMoves) {
+            System.out.println(Arrays.toString(validMove));
+            System.out.println('\n');
+        }
         for (int col = 0; col < board.length; col++){
             for (int row = 0; row < board.length; row++){
                 if (validMoves[col][row] != null && board[col][row] == null){ // no piece there, just draw a dot
-                    Circle dot = new Circle(row * 100, col * 100, 25, Color.GRAY);
-                    dot.setOpacity(25);
+                    Circle dot = new Circle((row * 100) + 50, (col * 100) + 50, CIRCLE_RADIUS, Color.GREY);
+                    dot.setOpacity(0.6);
                     pane.getChildren().add(dot);
                 }
                 if (validMoves[col][row] != null && board[col][row] != null){ // piece there, move is capturing it, so draw circle
-                    Circle captureCircle = new Circle(row * 100, col * 100, 45, Color.TRANSLUCENT);
-                    capturedCircle.setStroke(Color.GRAY);
-                    capturedCircle.setStrokeWidth(1);
-                    pane.getChildren.add(capturedCircle);
+                    Circle captureCircle = new Circle((row * 100) + 50, (col * 100) + 50, CAPTURE_CIRCLE_RADIUS, Color.TRANSPARENT);
+                    captureCircle.setStroke(Color.GREY);
+                    captureCircle.setStrokeWidth(8);
+                    captureCircle.setOpacity(0.5);
+                    pane.getChildren().add(captureCircle);
                 }
             }
         }
-        */
+
 
         for (Pieces[] pieces : board) {
             for (int j = 0; j < board.length; j++) {
