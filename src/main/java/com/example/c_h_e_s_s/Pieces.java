@@ -193,15 +193,15 @@ public abstract class Pieces {
         for (int i = 0; i < board1.length; i++){
             for (int j = 0; j < board1[0].length; j++){
                 if (board1[i][j] == null && board2[i][j] != null || board1[i][j] != null && board2[i][j] == null){
-                    return false;
+                    return true;
                 }
                 else if (board1[i][j] != null && board2[i][j] != null){
                     if (board1[i][j].getType() != board2[i][j].getType()){
-                        return false;
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 }

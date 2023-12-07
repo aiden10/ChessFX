@@ -37,14 +37,12 @@ public class Queen extends Pieces{
             else if (desiredRow < row){ // moving left
                 for (int left = row - 1; left > desiredRow; left--){
                     // move right one space at a time
-                    System.out.println("board[" + col + "]" + "[" + row + "]");
                     if (board[col][left] != null){ // invalid move, because something was in the way
                         return board;
                     }
                 }
                 // at this point it has "made it" to the desired position
                 board[col][row] = null;
-                col = desiredCol;
                 row = desiredRow;
                 board[col][row] = this;
                 return board;
@@ -56,10 +54,6 @@ public class Queen extends Pieces{
                     }
                 }
                 // at this point it has "made it" to the desired position
-                board[col][row] = null;
-                col = desiredCol;
-                board[col][row] = this;
-                return board;
             }
             else { // moving up
                 for (int up = col - 1; up > desiredCol; up--){ // move up one space at a time
@@ -68,11 +62,11 @@ public class Queen extends Pieces{
                     }
                 }
                 // at this point it has "made it" to the desired position
-                board[col][row] = null;
-                col = desiredCol;
-                board[col][row] = this;
-                return board;
             }
+            board[col][row] = null;
+            col = desiredCol;
+            board[col][row] = this;
+            return board;
         }
         else{
             // diagonal movement
@@ -98,7 +92,6 @@ public class Queen extends Pieces{
             // up right
             if (desiredCol < col){
                 for (int i = 1; i < Math.abs(desiredCol - col); i++){ // Math.abs(desiredCol - col) could be row as well, but they're already equal if this is reached
-                    System.out.println("board[" + (col - i) + "]" + "[" + (row + i)  + "]");
                     // col down
                     // row up
                     if (board[col - i][row + i] != null){ // there is a piece in the way
@@ -151,27 +144,24 @@ public class Queen extends Pieces{
         return board;
     }
     public Integer[][] getValidMoves(Pieces[][] board) {
-        // maybe compare piece types instead of deepEquals?
         Integer[][] moves = new Integer[8][8];
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 int currentRow = row;
                 int currentCol = col;
-                if (board[i][j] != null){
-                    if (color == 1) {
-                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 1)) {
-                            moves[i][j] = 1;
-                        }
-                    }
-                    else{
-                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 0)) {
-                            moves[i][j] = 1;
+                if (board[i][j] != null){ // not null
+
+                    if (checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != color)) { // is enemy piece?
+                        moves[i][j] = 1;
+                        if (board[i][j].getType() == 5) { // is it enemy king?
+                            King enemyKing = (King) board[i][j];
+                            enemyKing.inCheck = true;
                         }
                     }
                 }
                 else{
-                    if (!checkEquality(move(deepCopy(board), i, j), board)) {
+                    if (checkEquality(move(deepCopy(board), i, j), board)) {
                         moves[i][j] = 1;
                     }
                 }

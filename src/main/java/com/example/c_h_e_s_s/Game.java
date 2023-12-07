@@ -32,7 +32,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 
 public class Game extends Application {
     Pane pane = drawGrid();
@@ -296,6 +295,7 @@ public class Game extends Application {
                         System.out.println("Invalid move");
                     }
                     display(); // updates the board after the move or clears the selected tile
+                    removeCheck();
                 }
                 // regardless of whether the move was valid, it makes more sense to go back to selecting a piece to move again
                 System.out.println("Which piece do you want to move?");
@@ -403,11 +403,10 @@ public class Game extends Application {
         return pane;
     }
     private void displaySelectedPiece(Pieces selectedPiece){ // colors the tile of selected piece
-        int CIRCLE_RADIUS = 15;
-        int CAPTURE_CIRCLE_RADIUS = 45;
+        System.out.println("whiteKing.inCheck: " + whiteKing.inCheck);
+        System.out.println("blackKing.inCheck: " + blackKing.inCheck);
         // redraw the board when pieces are moved
-        pane.getChildren().clear();
-        pane.getChildren().add(drawGrid()); // redraw grid
+        display();
 
         // coloring the tile with the piece you want to move
         int selectedPieceCol = selectedPiece.getCol();
@@ -418,10 +417,88 @@ public class Game extends Application {
 
 
         Integer[][] validMoves = selectedPiece.getValidMoves(board);
-        for (Integer[] validMove : validMoves) {
-            System.out.println(Arrays.toString(validMove));
-            System.out.println('\n');
+        drawCircles(validMoves);
+        drawPieces();
+    }
+    private void removeCheck(){
+        Integer[][] allValidMoves = getAllValidMoves();
+        if (allValidMoves[whiteKing.col][whiteKing.row] == null){
+            whiteKing.inCheck = false;
         }
+        if (allValidMoves[blackKing.col][blackKing.row] == null){
+            blackKing.inCheck = false;
+        }
+    }
+    private Integer[][] getAllValidMoves(){
+        Integer[][] allValidMoves = new Integer[8][8];
+
+        for (Pieces[] pieces : board) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (pieces[j] != null) {
+                    Integer[][] pieceValidMoves = pieces[j].getValidMoves(board);
+
+                    for (int k = 0; k < pieceValidMoves.length; k++) {
+                        for (int l = 0; l < pieceValidMoves[0].length; l++) {
+                            if (allValidMoves[k][l] == null && pieceValidMoves[k][l] != null) {
+                                allValidMoves[k][l] = pieceValidMoves[k][l];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return allValidMoves;
+    }
+    private void drawCheckTile(){
+        if (blackKing.inCheck){
+            System.out.println("in check");
+            Rectangle checkTile = new Rectangle(blackKing.row * 100, blackKing.col * 100, 100, 100);
+            checkTile.setFill(Color.MAROON);
+            checkTile.setOpacity(0.5);
+            pane.getChildren().add(checkTile);
+        }
+        if (whiteKing.inCheck){
+            System.out.println("in check");
+            Rectangle checkTile = new Rectangle(whiteKing.row * 100, whiteKing.col * 100, 100, 100);
+            checkTile.setFill(Color.MAROON);
+            checkTile.setOpacity(0.5);
+            pane.getChildren().add(checkTile);
+        }
+    }
+    private void display(){
+        pane.getChildren().clear();
+        pane.getChildren().add(drawGrid()); // redraw grid
+        drawCheckTile();
+
+        for (Pieces[] pieces : board) {
+            for (int j = 0; j < board.length; j++) {
+                if (pieces[j] != null) {
+                    try {
+                        pane.getChildren().add(pieces[j].draw());
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+    private void drawPieces(){
+        for (Pieces[] pieces : board) {
+            for (int j = 0; j < board.length; j++) {
+                if (pieces[j] != null) {
+                    try {
+                        pane.getChildren().add(pieces[j].draw());
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+    private void drawCircles(Integer[][] validMoves){
+        int CIRCLE_RADIUS = 15;
+        int CAPTURE_CIRCLE_RADIUS = 45;
+
         for (int col = 0; col < board.length; col++){
             for (int row = 0; row < board.length; row++){
                 if (validMoves[col][row] != null && board[col][row] == null){ // no piece there, just draw a dot
@@ -435,36 +512,6 @@ public class Game extends Application {
                     captureCircle.setStrokeWidth(8);
                     captureCircle.setOpacity(0.5);
                     pane.getChildren().add(captureCircle);
-                }
-            }
-        }
-
-
-        for (Pieces[] pieces : board) {
-            for (int j = 0; j < board.length; j++) {
-                if (pieces[j] != null) {
-                    try {
-
-                        pane.getChildren().add(pieces[j].draw());
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
-    }
-
-    private void display(){
-        pane.getChildren().clear();
-        pane.getChildren().add(drawGrid()); // redraw grid
-        for (Pieces[] pieces : board) {
-            for (int j = 0; j < board.length; j++) {
-                if (pieces[j] != null) {
-                    try {
-                        pane.getChildren().add(pieces[j].draw());
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
             }
         }

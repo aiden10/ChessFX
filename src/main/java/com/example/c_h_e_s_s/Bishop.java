@@ -102,27 +102,24 @@ public class Bishop extends Pieces{
         return board;
     }
     public Integer[][] getValidMoves(Pieces[][] board) {
-        // maybe compare piece types instead of deepEquals?
         Integer[][] moves = new Integer[8][8];
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 int currentRow = row;
                 int currentCol = col;
-                if (board[i][j] != null){
-                    if (color == 1) {
-                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 1)) {
-                            moves[i][j] = 1;
-                        }
-                    }
-                    else{
-                        if (!checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != 0)) {
-                            moves[i][j] = 1;
+                if (board[i][j] != null){ // not null
+
+                    if (checkEquality(move(deepCopy(board), i, j), board) && (board[i][j].getColor() != color)) { // is enemy piece?
+                        moves[i][j] = 1;
+                        if (board[i][j].getType() == 5) { // is it enemy king?
+                            King enemyKing = (King) board[i][j];
+                            enemyKing.inCheck = true;
                         }
                     }
                 }
                 else{
-                    if (!checkEquality(move(deepCopy(board), i, j), board)) {
+                    if (checkEquality(move(deepCopy(board), i, j), board)) {
                         moves[i][j] = 1;
                     }
                 }
